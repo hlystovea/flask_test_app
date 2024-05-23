@@ -1,7 +1,6 @@
 class BaseConfig(object):
     DEBUG = True
     TESTING = False
-    HOST = '0.0.0.0'
     DB_SERVER = 'localhost'
 
     @property

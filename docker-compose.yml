@@ -4,7 +4,7 @@ services:
     build: .
     container_name: todo_backend
     restart: unless-stopped
-    command: python3 ./src/main.py
+    command: gunicorn -w 4 -b 0.0.0.0:8000 src.main:app
     env_file:
       - ./.env
     develop:
