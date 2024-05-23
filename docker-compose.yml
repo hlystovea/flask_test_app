@@ -1,0 +1,27 @@
+services:
+
+  backend:
+    build: .
+    container_name: todo_backend
+    restart: unless-stopped
+    command: python3 ./src/main.py
+    env_file:
+      - ./.env
+    develop:
+      watch: 
+        - path: ./requirements.txt
+          action: rebuild
+        - path: ./src
+          target: /code/src
+          action: sync
+
+  nginx:
+    image: nginx:latest
+    container_name: todo_nginx
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend

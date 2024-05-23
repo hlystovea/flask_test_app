@@ -5,7 +5,7 @@ from werkzeug.utils import import_string
 
 
 config = import_string(
-    os.environ.get('FLASK_CONFIG', 'src.core.config.ProdConfig')
+    f'core.config.{os.environ.get('FLASK_CONFIG', 'ProdConfig')}'
 )()
 
 app = Flask(__name__)
@@ -15,3 +15,7 @@ app.config.from_object(config)
 @app.route('/')
 def hello_world():
     return '<p>Hello, World!</p>'
+
+
+if __name__ == '__main__':
+    app.run(host=app.config['HOST'], port=8000)
