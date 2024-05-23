@@ -1,22 +1,24 @@
 import os
 
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from werkzeug.utils import import_string
 
-from app.services.database import init_db
-from app.tasks.views import tasks
+
+config_class_name = os.environ.get('FLASK_CONFIG', 'ProdConfig')
+config = import_string(f'app.core.config.{config_class_name}')()
+
+db = SQLAlchemy()
 
 
-def get_app() -> Flask:
-    config_class_name = os.environ.get('FLASK_CONFIG', 'ProdConfig')
-    config = import_string(f'app.core.config.{config_class_name}')()
-
+def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
-    app.register_blueprint(tasks)
+    db.init_app(app)
 
-    init_db()
     return app
 
 
-app = get_app()
+app = create_app()
+migrate = Migrate(app, db)

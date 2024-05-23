@@ -1,13 +1,10 @@
-from sqlalchemy import Column, Integer, String
-
-from app.services.database import Base
+from app.main import db
 
 
-class Task(Base):
-    __tablename__ = 'tasks'
-    id = Column(Integer, primary_key=True)
-    title = Column(String(50))
-    description = Column(String(400))
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50))
+    description = db.Column(db.String(400))
 
     def __init__(self, title, description=None):
         self.title = title
