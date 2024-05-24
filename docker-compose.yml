@@ -16,6 +16,10 @@ services:
     command: gunicorn --reload -w 4 -b 0.0.0.0:8000 app:app
     env_file:
       - ./.env
+    volumes:
+      - ./migrations:/code/migrations
+    depends_on:
+      - db
     develop:
       watch: 
         - path: ./requirements.txt

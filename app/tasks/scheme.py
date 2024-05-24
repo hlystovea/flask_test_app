@@ -12,6 +12,8 @@ class TaskSchema(marshmallow.SQLAlchemySchema):
     id = auto_field(dump_only=True)
     title = auto_field(required=True)
     description = auto_field()
+    created_at = auto_field(dump_only=True)
+    updated_at = auto_field(dump_only=True)
 
 
 class TaskUpdateSchema(TaskSchema):
