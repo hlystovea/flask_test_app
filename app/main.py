@@ -1,5 +1,6 @@
 import os
 
+from flasgger import Swagger
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
@@ -24,3 +25,4 @@ def create_app():
 app = create_app()
 migrate = Migrate(app, db)
 marshmallow = Marshmallow(app)
+swagger = Swagger(app)
