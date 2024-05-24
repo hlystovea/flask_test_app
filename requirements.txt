@@ -3,6 +3,7 @@ blinker==1.8.2
 click==8.1.7
 colorama==0.4.6
 flask==3.0.3
+flask-marshmallow==1.2.1
 flask-migrate==4.0.7
 flask-sqlalchemy==3.1.1
 greenlet==3.0.3
@@ -12,6 +13,7 @@ jinja2==3.1.4
 mako==1.3.5
 markupsafe==2.1.5
 marshmallow==3.21.2
+marshmallow-sqlalchemy==1.0.0
 mysqlclient==2.2.4
 packaging==24.0
 sqlalchemy==2.0.30

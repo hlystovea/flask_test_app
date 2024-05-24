@@ -2,6 +2,7 @@ import os
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from werkzeug.utils import import_string
 
@@ -22,3 +23,4 @@ def create_app():
 
 app = create_app()
 migrate = Migrate(app, db)
+marshmallow = Marshmallow(app)
