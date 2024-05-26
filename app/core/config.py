@@ -9,9 +9,9 @@ class BaseConfig:
 
 class ProdConfig(BaseConfig):
     DB_SERVER = os.environ.get('DB_SERVER', 'db')
-    MYSQL_USER = os.environ['MYSQL_USER']
-    MYSQL_PASSWORD = os.environ['MYSQL_PASSWORD']
-    MYSQL_DATABASE = os.environ['MYSQL_DATABASE']
+    MYSQL_USER = os.environ.get('MYSQL_USER')
+    MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD')
+    MYSQL_DATABASE = os.environ.get('MYSQL_DATABASE')
 
     @property
     def SQLALCHEMY_DATABASE_URI(self):
