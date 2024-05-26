@@ -43,7 +43,7 @@
 
 1. Клонирование репозитория
 
-```git clone https://github.com/hlystovea/resource_planner.git```  
+```git clone https://github.com/hlystovea/flask_test_app.git```  
 
 2. Переход в директорию flask_test_app
 
