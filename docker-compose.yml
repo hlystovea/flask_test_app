@@ -19,6 +19,7 @@ services:
     environment:
       - FLASK_APP=app
       - DB_SERVER=db
+      - MYSQL_DATABASE=todo
     volumes:
       - ./migrations:/code/migrations
     depends_on:
