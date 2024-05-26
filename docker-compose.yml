@@ -5,7 +5,8 @@ services:
     container_name: todo_db
     restart: unless-stopped
     env_file:
-      - ./.env
+      - path: ./.env
+        required: false
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=true
     volumes:
@@ -17,7 +18,8 @@ services:
     restart: unless-stopped
     command: gunicorn app:app
     env_file:
-      - ./.env
+      - path: ./.env
+        required: false
     environment:
       - FLASK_APP=app
       - DB_SERVER=db
