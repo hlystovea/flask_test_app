@@ -11,7 +11,7 @@ from app.core.database import create_db
 
 def create_app(config: BaseConfig | None = None) -> Flask:
     if config is None:
-        config = get_config(os.environ.get('FLASK_CONFIG', 'PROD'))
+        config = get_config(os.environ.get('FLASK_CONFIG', 'DEV'))
 
     app = Flask(__name__)
     app.config.from_object(config)
