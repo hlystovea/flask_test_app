@@ -8,7 +8,7 @@ class Task(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now(), nullable=True)
 
-    def __init__(self, title, description=None):
+    def __init__(self, title: str, description: str | None = None):
         self.title = title
         self.description = description
 

@@ -2,27 +2,25 @@ import os
 
 from flasgger import Swagger
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
-from werkzeug.utils import import_string
+
+from app.core.config import BaseConfig, get_config
+from app.core.database import create_db
 
 
-config_class_name = os.environ.get('FLASK_CONFIG', 'ProdConfig')
-config = import_string(f'app.core.config.{config_class_name}')()
+def create_app(config: BaseConfig | None = None) -> Flask:
+    if config is None:
+        config = get_config(os.environ.get('FLASK_CONFIG', 'PROD'))
 
-db = SQLAlchemy()
-
-
-def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
-    db.init_app(app)
 
     return app
 
 
 app = create_app()
+db = create_db(app)
 migrate = Migrate(app, db)
 marshmallow = Marshmallow(app)
 swagger = Swagger(app)

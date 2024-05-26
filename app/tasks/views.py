@@ -3,7 +3,7 @@ from marshmallow import ValidationError
 
 from app.main import db
 from app.tasks.models import Task
-from app.tasks.scheme import task_schema, tasks_schema, task_update_schema
+from app.tasks.schemes import task_schema, tasks_schema, task_update_schema
 
 
 tasks = Blueprint('tasks', __name__)
@@ -49,7 +49,7 @@ def get_tasks():
 
 
 @tasks.route('/tasks/<id>')
-def retrieve_task(id: int):
+def get_task(id: int):
     """
     Returning a task by id
     ---

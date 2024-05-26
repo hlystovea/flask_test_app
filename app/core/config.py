@@ -1,11 +1,14 @@
 import os
+from typing import Literal
 
 
-class BaseConfig(object):
-    DEBUG = True
+class BaseConfig:
+    DEBUG = False
     TESTING = False
-    DB_SERVER = os.environ['DB_SERVER']
-    MYSQL_ROOT_PASSWORD = os.environ['MYSQL_ROOT_PASSWORD']
+
+
+class ProdConfig(BaseConfig):
+    DB_SERVER = os.environ.get('DB_SERVER', 'db')
     MYSQL_USER = os.environ['MYSQL_USER']
     MYSQL_PASSWORD = os.environ['MYSQL_PASSWORD']
     MYSQL_DATABASE = os.environ['MYSQL_DATABASE']
@@ -18,13 +21,22 @@ class BaseConfig(object):
         )
 
 
-class DevConfig(BaseConfig):
-    pass
-
-
-class ProdConfig(BaseConfig):
-    DEBUG = False
+class DevConfig(ProdConfig):
+    DEBUG = True
+    MYSQL_USER = os.environ.get('MYSQL_USER', 'user')
+    MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD', 'YES')
+    MYSQL_DATABASE = os.environ.get('MYSQL_DATABASE', 'todo')
 
 
 class TestConfig(BaseConfig):
     TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
+
+
+def get_config(config_name: Literal['PROD', 'DEV', 'TEST']) -> BaseConfig:
+    CONFIG = {
+        'PROD': ProdConfig,
+        'DEV': DevConfig,
+        'TEST': TestConfig,
+    }
+    return CONFIG[config_name]()
