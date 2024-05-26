@@ -1,5 +1,6 @@
-# flask_test_app
-To-do app
+# To-do app
+
+## Контракт
 
 1. Создание задачи:
 - Метод: POST
@@ -27,3 +28,47 @@ To-do app
 - Метод: DELETE
 - URL: /tasks/<id>
 - Ответ: Сообщение об успешном удалении.
+
+
+## Инструменты
+- Python 3.12
+- Flask 3.0
+- Docker
+- Nginx
+- MySQL
+
+
+## Установка (Linux)
+У вас должен быть установлен [Docker Compose](https://docs.docker.com/compose/)
+
+1. Клонирование репозитория
+
+```git clone https://github.com/hlystovea/resource_planner.git```  
+
+2. Переход в директорию flask_test_app
+
+```cd flask_test_app```
+
+3. Создание файла с переменными окружения (необязательно)
+
+```cp env.example .env```
+
+4. Заполнение файла .env своими переменными (необязательно)
+
+```nano .env```
+
+5. Запуск проекта
+
+```sudo docker compose up -d```
+
+6. Инициализация базы данных
+
+```sudo docker compose exec backend flask db init```
+
+7. Запуск миграций
+
+```sudo docker compose exec backend flask db upgrade```
+
+8. Приложение будет доступно по адресу
+ 
+```http://127.0.0.1```
