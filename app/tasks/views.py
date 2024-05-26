@@ -42,7 +42,22 @@ def get_tasks():
             schema:
                 $ref: '#/definitions/Tasks'
             examples:
-                ['red', 'green', 'blue']
+                [
+                    {
+                        'id': 1,
+                        'title': 'title',
+                        'description': 'description',
+                        'created_at': '2024-01-01T00:00:00',
+                        'updated_at': '2024-01-01T00:00:00'
+                    },
+                    {
+                        'id': 2,
+                        'title': 'title',
+                        'description': 'description',
+                        'created_at': '2024-01-01T00:00:00',
+                        'updated_at': '2024-01-01T00:00:00'
+                    }
+                ]
     """
     tasks = Task.query.all()
     return tasks_schema.dump(tasks)
@@ -76,6 +91,12 @@ def get_task(id: int):
                 updated_at:
                     type: string
                     description: The date when the task was updated
+        Error:
+            type: object
+            properties:
+                error:
+                    type: string
+                    description: A error message
     responses:
         200:
             description: A task
@@ -89,6 +110,12 @@ def get_task(id: int):
                     'created_at': '2024-01-01T00:00:00',
                     'updated_at': '2024-01-01T00:00:00'
                 }
+        404:
+            description: A error
+            schema:
+                $ref: '#/definitions/Error'
+            examples:
+                {'error': '404 Not Found'}
     """
     task = Task.query.get_or_404(id)
     return task_schema.dump(task)
@@ -123,6 +150,12 @@ def create_task():
                 updated_at:
                     type: string
                     description: The date when the task was updated
+        Error:
+            type: object
+            properties:
+                error:
+                    type: string
+                    description: A error message
     responses:
         201:
             description: New task
@@ -136,13 +169,19 @@ def create_task():
                     'created_at': '2024-01-01T00:00:00',
                     'updated_at': '2024-01-01T00:00:00'
                 }
+        400:
+            description: A error
+            schema:
+                $ref: '#/definitions/Error'
+            examples:
+                {'error': '400 Bad Request'}
     """
     data = request.get_json()
 
     try:
         task = task_schema.load(data)
-    except ValidationError as err:
-        return jsonify({'error': err.messages}), 400
+    except ValidationError as error:
+        return jsonify({'error': error.messages}), 400
 
     db.session.add(task)
     db.session.commit()
@@ -177,6 +216,12 @@ def update_task(id: int):
                 updated_at:
                     type: string
                     description: The date when the task was updated
+        Error:
+            type: object
+            properties:
+                error:
+                    type: string
+                    description: A error message
     responses:
         200:
             description: Modified task
@@ -190,6 +235,18 @@ def update_task(id: int):
                     'created_at': '2024-01-01T00:00:00',
                     'updated_at': '2024-01-01T00:00:00'
                 }
+        400:
+            description: A error
+            schema:
+                $ref: '#/definitions/Error'
+            examples:
+                {'error': '400 Bad Request'}
+        404:
+            description: A error
+            schema:
+                $ref: '#/definitions/Error'
+            examples:
+                {'error': '404 Not Found'}
     """
     task = Task.query.get_or_404(id)
 
@@ -197,8 +254,8 @@ def update_task(id: int):
         task_update_schema.load(
             request.get_json(), session=db.session, instance=task, partial=True
         )
-    except ValidationError as err:
-        return jsonify({'error': err.messages}), 400
+    except ValidationError as error:
+        return jsonify({'error': error.messages}), 400
 
     db.session.commit()
 
@@ -214,16 +271,32 @@ def delete_task(id: int):
         - in: path
           name: id
           type: integer
+    definitions:
+        Message:
+            type: object
+            properties:
+                message:
+                    type: string
+                    description: A message about a successful operation
+        Error:
+            type: object
+            properties:
+                error:
+                    type: string
+                    description: A error message
     responses:
         200:
             description: A message about a successful operation
             schema:
-                type: object
-                properties:
-                    message:
-                        type: string
+                $ref: '#/definitions/Message'
             examples:
                 {'message': 'Task successfully deleted'}
+        404:
+            description: A error
+            schema:
+                $ref: '#/definitions/Error'
+            examples:
+                {'error': '404 Not Found'}
     """
     task = Task.query.get_or_404(id)
 
