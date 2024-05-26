@@ -6,8 +6,6 @@ services:
     restart: unless-stopped
     env_file:
       - ./.env
-    environment:
-      - MYSQL_RANDOM_ROOT_PASSWORD=true
     volumes:
       - mysql_data:/var/lib/mysql
 
